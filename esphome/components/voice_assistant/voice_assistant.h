@@ -95,7 +95,7 @@ struct Configuration {
 
 class VoiceAssistant : public Component {
  public:
-  VoiceAssistant();
+  void setup() override;
   void loop() override;
   float get_setup_priority() const override;
   void start_streaming();
@@ -291,8 +291,8 @@ class VoiceAssistant : public Component {
   uint8_t auto_gain_;
   float volume_multiplier_;
 
-  uint8_t *send_buffer_{nullptr};
-  int16_t *input_buffer_{nullptr};
+  uint8_t *send_buffer_;
+  int16_t *input_buffer_;
 
   bool continuous_{false};
   bool silence_detection_;

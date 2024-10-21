@@ -5,35 +5,8 @@
 </head>
 
 <body>
-  <div>
-
-    <h1>Install Voice PE Latest Firmware</h1>
-    <esp-web-install-button
-      manifest="https://firmware.esphome.io/home-assistant-voice-pe/home-assistant-voice/manifest.json">
-    </esp-web-install-button>
-  </div>
-  <br />
-  <details>
-    <summary>Install Specific Version</summary>
-    Version: <input />
-  </details>
-  <script>
-    function setVersion(version) {
-      document.querySelector('h1').innerHTML = `Install Voice PE v${version}`;
-      document.querySelector('esp-web-install-button').manifest = `https://firmware.esphome.io/home-assistant-voice-pe/home-assistant-voice/${version}/manifest.json`;
-    }
-
-    document.querySelector('input').addEventListener('change', ev => {
-      const version = ev.target.value;
-      setVersion(version);
-    });
-    var urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('version')) {
-      const version = urlParams.get('version');
-      setVersion(version);
-    }
-  </script>
-
+  <esp-web-install-button
+    manifest="https://firmware.esphome.io/home-assistant-voice-pe/home-assistant-voice/manifest.json"></esp-web-install-button>
 </body>
 <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
 

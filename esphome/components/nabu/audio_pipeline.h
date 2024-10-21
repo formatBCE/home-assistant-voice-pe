@@ -40,12 +40,6 @@ enum class InfoErrorSource : uint8_t {
   RESAMPLER,
 };
 
-enum class DecodingError : uint8_t {
-  FAILED_HEADER = 0,
-  INCOMPATIBLE_BITS_PER_SAMPLE,
-  INCOMPATIBLE_CHANNELS,
-};
-
 // Used to pass information from each task.
 struct InfoErrorEvent {
   InfoErrorSource source;
@@ -53,7 +47,6 @@ struct InfoErrorEvent {
   optional<media_player::MediaFileType> file_type;
   optional<audio::AudioStreamInfo> audio_stream_info;
   optional<ResampleInfo> resample_info;
-  optional<DecodingError> decoding_err;
 };
 
 class AudioPipeline {
