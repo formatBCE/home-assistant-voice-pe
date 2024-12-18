@@ -16,12 +16,12 @@ concurrency:
 jobs:
   build-firmware:
     name: Build Firmware
-    uses: esphome/workflows/.github/workflows/build.yml@2024.11.1
+    uses: esphome/workflows/.github/workflows/build.yml@2024.12.0
     with:
       files: |
         home-assistant-voice.factory.yaml
         home-assistant-voice.8mb.yaml
-      esphome-version: 2024.11.0
+      esphome-version: 2024.12.0
       release-summary: ${{ github.event_name == 'release' && github.event.release.body || '' }}
       release-url: ${{ github.event_name == 'release' && github.event.release.html_url || '' }}
       release-version: ${{ github.event_name == 'release' && github.event.release.tag_name || '' }}
@@ -42,7 +42,8 @@ jobs:
               repo: context.repo.repo,
               run_id: context.runId,
             })
-            const url = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}/artifacts/${artifacts['data']['artifacts'][0]['id']}`
+            const artifact = artifacts['data']['artifacts'].find(a => a.name === 'home-assistant-voice')
+            const url = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}/artifacts/${artifact['id']}`
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -61,7 +62,7 @@ jobs:
     name: Upload to R2
     needs:
       - build-firmware
-    uses: esphome/workflows/.github/workflows/upload-to-r2.yml@2024.11.1
+    uses: esphome/workflows/.github/workflows/upload-to-r2.yml@2024.12.0
     with:
       directory: home-assistant-voice-pe
     secrets: inherit
@@ -79,9 +80,19 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "[Install here](https://esphome.github.io/home-assistant-voice-pe/?version=${{ github.event.release.tag_name }}) and test **before** approving deployment to beta or production." >> $GITHUB_STEP_SUMMARY
 
+  upload-to-release:
+    name: Upload to Release
+    if: github.event_name == 'release'
+    uses: esphome/workflows/.github/workflows/upload-to-gh-release.yml@2024.12.0
+    needs:
+      - build-firmware
+    with:
+      version: ${{ github.event.release.tag_name }}
+
   promote-beta:
     name: Promote to Beta
-    uses: esphome/workflows/.github/workflows/promote-r2.yml@2024.11.1
+    if: github.event_name == 'release'
+    uses: esphome/workflows/.github/workflows/promote-r2.yml@2024.12.0
     needs:
       - upload-to-r2
     with:
@@ -93,8 +104,8 @@ jobs:
 
   promote-prod:
     name: Promote to Production
-    if: github.event.release.prerelease == false
-    uses: esphome/workflows/.github/workflows/promote-r2.yml@2024.11.1
+    if: github.event_name == 'release' && github.event.release.prerelease == false
+    uses: esphome/workflows/.github/workflows/promote-r2.yml@2024.12.0
     needs:
       - upload-to-r2
     with:
