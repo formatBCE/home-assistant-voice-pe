@@ -19,7 +19,7 @@ esphome:
   name: home-assistant-voice
   friendly_name: Home Assistant Voice
   name_add_mac_suffix: true
-  min_version: 2024.12.0
+  min_version: 2024.12.2
   platformio_options:
     board_build.flash_mode: dio
   on_boot:
@@ -91,6 +91,8 @@ esp32:
 
       CONFIG_BT_ALLOCATION_FROM_SPIRAM_FIRST: "y"
       CONFIG_BT_BLE_DYNAMIC_ENV_MEMORY: "y"
+
+      CONFIG_MBEDTLS_EXTERNAL_MEM_ALLOC: "y"
 
 wifi:
   id: wifi_id
