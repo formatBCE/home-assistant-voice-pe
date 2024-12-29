@@ -93,6 +93,7 @@ esp32:
       CONFIG_BT_BLE_DYNAMIC_ENV_MEMORY: "y"
 
       CONFIG_MBEDTLS_EXTERNAL_MEM_ALLOC: "y"
+      CONFIG_MBEDTLS_SSL_PROTO_TLS1_3: "y"  # TLS1.3 support isn't enabled by default in IDF 5.1.5
 
 wifi:
   id: wifi_id
@@ -1522,7 +1523,7 @@ audio_dac:
 micro_wake_word:
   id: mww
   models:
-    - model: https://github.com/kahrendt/microWakeWord/releases/download/okay_nabu_20241205.4/okay_nabu.json
+    - model: https://github.com/kahrendt/microWakeWord/releases/download/okay_nabu_20241223.2/okay_nabu.json
       id: okay_nabu
     - model: hey_jarvis
       id: hey_jarvis
