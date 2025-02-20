@@ -45,7 +45,7 @@ enum TaskNotificationBits : uint32_t {
 };
 
 void NabuMicrophoneChannel::setup() {
-  const size_t ring_buffer_size = RING_BUFFER_LENGTH * this->parent_->get_sample_rate() / 1000 * sizeof(int16_t);
+  const size_t ring_buffer_size = RING_BUFFER_LENGTH * 16000 / 1000 * sizeof(int16_t);
   this->ring_buffer_ = RingBuffer::create(ring_buffer_size);
   if (this->ring_buffer_ == nullptr) {
     ESP_LOGE(TAG, "Could not allocate ring buffer");
