@@ -20,7 +20,7 @@ static const size_t RING_BUFFER_LENGTH = 64;  // Measured in milliseconds
 static const size_t QUEUE_LENGTH = 10;
 
 static const size_t NUMBER_OF_CHANNELS = 2;
-static const size_t DMA_BUFFER_SIZE = 512;
+static const size_t DMA_BUFFER_SIZE = 480;
 static const size_t DMA_BUFFERS_COUNT = 4;
 static const size_t FRAMES_IN_ALL_DMA_BUFFERS = DMA_BUFFER_SIZE * DMA_BUFFERS_COUNT;
 static const size_t SAMPLES_IN_ALL_DMA_BUFFERS = FRAMES_IN_ALL_DMA_BUFFERS * NUMBER_OF_CHANNELS;
