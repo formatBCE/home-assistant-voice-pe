@@ -610,6 +610,7 @@ void VoiceAssistant::request_start(bool continuous, bool silence_detection) {
 
 void VoiceAssistant::request_stop() {
   this->continuous_ = false;
+  this->continue_conversation_ = false;
 
   switch (this->state_) {
     case State::IDLE:
@@ -634,6 +635,16 @@ void VoiceAssistant::request_stop() {
       this->signal_stop_();
       break;
     case State::STREAMING_RESPONSE:
+#ifdef USE_MEDIA_PLAYER
+      // Stop any ongoing media player announcement
+      if (this->media_player_ != nullptr) {
+        this->media_player_->make_call()
+            .set_command(media_player::MEDIA_PLAYER_COMMAND_STOP)
+            .set_announcement(true)
+            .perform();
+      }
+#endif
+      break;
     case State::RESPONSE_FINISHED:
       break;  // Let the incoming audio stream finish then it will go to idle.
   }
